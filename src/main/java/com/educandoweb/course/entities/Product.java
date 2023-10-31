@@ -2,21 +2,22 @@ package com.educandoweb.course.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
 public class Product implements Serializable {
-
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,11 +26,11 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgUrl;
 
-	@Transient
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
 
 	public Product() {
-
 	}
 
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
@@ -41,37 +42,36 @@ public class Product implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNome(String nome) {
-		this.name = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDecription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDecription(String decription) {
-		this.description = decription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public Double getPrivate() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrivate(Double private1) {
-		price = private1;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public String getImgUrl() {
@@ -88,7 +88,10 @@ public class Product implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
