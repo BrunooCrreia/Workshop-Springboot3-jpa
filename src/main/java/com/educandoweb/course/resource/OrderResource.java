@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.services.OrderService;
-
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderResource {
 
-	@Autowired
+	@Autowired 
 	private OrderService service;
 
 	@GetMapping
