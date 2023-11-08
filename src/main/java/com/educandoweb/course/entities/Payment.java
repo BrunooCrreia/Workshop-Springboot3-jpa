@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,26 +16,26 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_payment")
-public class Payment implements Serializable{
-private static final long SerialVersioUID = 1L;
+public class Payment implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Instant Moment;
+	private Instant moment;
 
+	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Order order;
 
 	public Payment() {
-		super();
 	}
 
 	public Payment(Long id, Instant moment, Order order) {
 		super();
 		this.id = id;
-		Moment = moment;
+		this.moment = moment;
 		this.order = order;
 	}
 
@@ -46,11 +48,11 @@ private static final long SerialVersioUID = 1L;
 	}
 
 	public Instant getMoment() {
-		return Moment;
+		return moment;
 	}
 
 	public void setMoment(Instant moment) {
-		Moment = moment;
+		this.moment = moment;
 	}
 
 	public Order getOrder() {
@@ -60,6 +62,7 @@ private static final long SerialVersioUID = 1L;
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+	
 
 	@Override
 	public int hashCode() {
@@ -77,8 +80,5 @@ private static final long SerialVersioUID = 1L;
 		Payment other = (Payment) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
 
 }
